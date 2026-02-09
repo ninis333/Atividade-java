@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Leitura {
     public static String dados(String mensagem){
         Scanner scanner = new Scanner(System.in);
