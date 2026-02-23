@@ -6,6 +6,7 @@ public class Main {
 
     private static ArrayList<Aluno> listaAlunos = new ArrayList<>();
     private static ArrayList<Turma> listaTurmas = new ArrayList<>();
+
     public static void main(String[] args) {
         menuPrincipal();
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
@@ -62,6 +63,7 @@ public class Main {
                 break;
             default:
                 System.out.println("Opção inválida");
+                menuAlunos();
 
         }
     }
@@ -92,10 +94,10 @@ public class Main {
                 break;
             default:
                 System.out.println("Opção inválida");
+                menuTurmas();
 
         }
     }
-
 
     private static void listarAlunos() {
         for (Aluno a : listaAlunos){
@@ -131,31 +133,36 @@ public class Main {
 
         String curso = Leitura.dados("Digte o curso: ");
         while (!isCharacter(curso)) {
-            System.out.println("nome de curso iválido");
+            System.out.println("Nome de curso inválido! Não use números ou caracteres especiais, por favor");
             curso = Leitura.dados("Digite o curso");
         }
         String sigla = Leitura.dados("Digite a sigla");
-        boolean repetido = true;
-        while (sigla.isBlank()) || !repetido {
-            System.out.println("Sigla inválida");
-            sigla = Leitura.dados("Digite a sigla");
-            sigla = sigla.toUpperCase();
+        while (!validarSigla(sigla)){
+            System.out.println("Sigla inválida! Precisa conter texto e não pode ser repetida");
+            sigla = Leitura.dados("Digite a sigla: ");
+        }
 
-        for (Turma t : listaTurmas){
-            if (t.getSigla().equals(sigla)){
-                System.out.println("Turma já cadastrada!");
-                
 
+        Turma turma = new Turma(curso, sigla, periodo);
+        listaTurmas.add(turma);
+    }
+
+    private static boolean validarSigla(String sigla){
+        if (sigla.isBlank()) return false;
+
+        for (Turma turma : listaTurmas) {
+            if (turma.getSigla().equals(sigla)) {
+                return false;
             }
         }
-        repetido = false;
-        }
-        Turma turma = new Turma(curso, sigla, periodo);
-        listaTurmas.add(turma)}
+        return true;
 
+    }
+
+}
 
     private static boolean isCharacter(String texto) {
-            String textoSemNumeros = texto.replaceAll("\\d","");
+            String textoSemNumeros = texto.replaceAll("\\d", "");
             return !texto.isBlank() && texto.equals(textoSemNumeros);
     }
 
@@ -184,12 +191,41 @@ public class Main {
 
     }
 
-    private static void atualizarTurmas() {
+    private static void atualizarTurma() {
 
     }
 
-    private static void excluirTurmas() {
+    private static void excluirTurma() {
+    listarTurmasIndiceSigla();
+    String opcao = Leitura.dados("Digite o numero da tuma que deseja excluir: ")
+    int opcaoValida = -1;
+    while (validarOpcaoExcluir(opcao)==-1){
+        System.out.println("Digite novamente");
+        opcao = Leitura.dados("Digite o numero da tuma que deseja excluir: ")
+    }
+    listaTurmas.remove();
 
+        private static boolean validarOpcaoExcluir(String opcao) {
+    if (opcao.isBlank()) return -1;
+
+    int opcaoNumero = -1;
+
+    try{
+        opcaoNumero = Integer.parseInt(opcao);
+    } catch (NumberFormatException e){
+        return -1;
+    }
+    int indiceLista = opcaoNumero-1;
+    indiceLista >= 0 && indiceLista<listaTurmas.size() > indiceLista ? return indiceLista;
+
+    }
+            }
+
+
+            private static void listarTurmasIndiceSigla() {
+        System.out.println("lista das Turmas: ");
+    for (int i=0;i<listaTurmas.size();i++){
+        System.out.printf("%d - %s", i+1, listaTurmas.get(i).getSigla());
     }
 
 
