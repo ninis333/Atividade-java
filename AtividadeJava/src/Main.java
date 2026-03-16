@@ -99,7 +99,7 @@ public class Main {
     }
 
     private static void excluirTurma() {
-        if(isVazio(listaTurmas)) {
+        if(isVazioTurmas(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -115,11 +115,21 @@ public class Main {
         }
     }
 
-    private static boolean isVazio(ArrayList<Turma> listaTurmas) {
+    private static boolean isVazioTurmas(ArrayList<Turma> listaTurmas) {
         if (listaTurmas.isEmpty()) return true;
 
         for (Turma turma : listaTurmas){
             if (turma.isAtivo()) return false;
+        }
+
+        return true;
+    }
+
+    private static boolean isVazioAlunos(ArrayList<Aluno> listaAlunos) {
+        if (listaAlunos.isEmpty()) return true;
+
+        for (Aluno aluno : listaAlunos){
+            if (aluno.isAtivo()) return false;
         }
 
         return true;
@@ -164,7 +174,7 @@ public class Main {
     }
 
     private static void atualizarTurma() {
-        if(isVazio(listaTurmas)) {
+        if(isVazioTurmas(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -345,7 +355,7 @@ public class Main {
     }
 
     private static void listarTurmas() {
-        if(isVazio(listaTurmas)) {
+        if(isVazioTurmas(listaTurmas)) {
             System.out.println("Não há turmas cadastradas");
             return;
         }
@@ -356,7 +366,17 @@ public class Main {
     }
 
     private static void excluirAluno() {
+        if(isVazioAlunos(listaAlunos)) {
+            System.out.println("Não há alunos cadastradas");
+            return;
+        }
 
+        int idExcluir = validaIdTurma();
+
+        if (confirmaExclusao()){
+            listaAlunos.get(idExcluir).setAtivo(false);
+            System.out.println("Aluno excluído com sucesso!");
+        }
     }
 
     private static void atualizarAluno() {
@@ -364,10 +384,22 @@ public class Main {
     }
 
     private static void cadastrarAluno() {
-
+//        String nome = nome;
+        Aluno aluno = new Aluno();
+        listaAlunos.add(aluno);
     }
 
     private static void listarAlunos() {
+        if (isVazioAlunos(listaAlunos)){
+            System.out.println("Não há turmas cadastradas");
+            return;
+        }
+
+        for (Aluno a : listaAlunos) {
+            if (a.isAtivo())
+                System.out.println(a);
+        }
 
     }
 }
+
